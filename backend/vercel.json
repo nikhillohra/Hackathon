@@ -15,7 +15,7 @@
     ],
     "routes": [
       {
-        "src": "/api/hackathons/(.*)",
+        "src": "/api/(.*)",
         "dest": "/backend/server.js"
       },
       {
