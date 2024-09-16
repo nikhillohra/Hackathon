@@ -19,11 +19,17 @@ const HackathonCard = ({ hackathon }) => {
 
   return (
     <div className="bg-white rounded-2xl flex flex-col justify-between items-center h-full">
-      <img
-        src={`http://localhost:5005/${hackathon.image}`}
-        alt={hackathon.title}
-        className="w-full h-48 object-cover rounded-t-2xl"
-      />
+      {hackathon.image ? (
+        <img
+          src={`http://localhost:5005/${hackathon.image}`}
+          alt={hackathon.title}
+          className="w-full h-48 object-cover rounded-t-2xl"
+        />
+      ) : (
+        <div className="w-full h-48 rounded-t-2xl bg-gray-200 flex items-center justify-center">
+          <span className="text-gray-500">No Image Available</span>
+        </div>
+      )}
 
       <div
         className={`flex items-center justify-center w-2/6 mt-8 ${

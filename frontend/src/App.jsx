@@ -5,6 +5,8 @@ import Home from "./Pages/Home";
 import ChallengeDetails from "./Pages/ChallengeDetails";
 import EditChallenge from "./Pages/EditChallenge";
 import HackathonDetail from "./Pages/HackathonDetail";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (

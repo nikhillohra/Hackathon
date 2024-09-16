@@ -6,6 +6,9 @@ import uploadIcon from "../assets/upload.svg";
 import * as yup from "yup";
 import "tailwindcss/tailwind.css";
 import { useNavigate } from "react-router-dom";
+import imageFillIcon from "../assets/imageFill.svg";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Yup validation schema
 const schema = yup.object().shape({
@@ -22,13 +25,7 @@ const schema = yup.object().shape({
 
 const ChallengeDetails = () => {
   const navigate = useNavigate();
-
-  const handleBackButton = () => {
-    navigate("/");
-  };
-
   const [selectedImage, setSelectedImage] = useState(null);
-  const fileInputRef = useRef(null); // Create a reference for the file input
 
   // useForm hook
   const {
@@ -36,7 +33,6 @@ const ChallengeDetails = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -51,6 +47,7 @@ const ChallengeDetails = () => {
     formData.append("level", data.level);
     formData.append("status", data.status);
 
+    // Check if image is available and append it to FormData
     if (data.image && data.image.length > 0) {
       formData.append("image", data.image[0]);
     }
@@ -65,7 +62,12 @@ const ChallengeDetails = () => {
           },
         }
       );
-      console.log(response.data);
+      toast.success("Hackathon Created Successfully!"); // Use toast.success instead of toast for better visibility
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      console.log("Success:", response.data);
+    
     } catch (error) {
       console.error(
         "Error:",
@@ -78,8 +80,8 @@ const ChallengeDetails = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedImage(file);
-      setValue("image", event.target.files);
+      setSelectedImage(URL.createObjectURL(file)); // Update selectedImage for preview
+      setValue("image", event.target.files); // Set the image in the form for submission
     }
   };
 
@@ -159,39 +161,55 @@ const ChallengeDetails = () => {
 
           {/* Image Upload */}
           <div>
-            <label className="block mb-5 text-[16px] font-medium text-gray-700">
+            <label className="block mb-5 text-[16px]font-medium text-gray-700">
               Image
             </label>
-            <div className="flex items-center space-x-4 ">
-              <label
-                htmlFor="imageUpload"
-                className="flex items-center cursor-pointer p-4 px-20 bg-[#e6e6e6d9] text-[#666666] rounded-md shadow hover:bg-gray-300"
-              >
-                Upload
-                <img
-                  src={uploadIcon}
-                  alt="uploadIcon"
-                  className="w-6 h-6 ml-2"
-                />
-              </label>
-              <input
-                id="imageUpload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                ref={fileInputRef}
-                {...register("image")}
-                className="hidden"
-              />
-            </div>
-
-            {/* Image preview */}
-            {selectedImage && (
-              <div className="mt-4">
-                <img
-                  src={URL.createObjectURL(selectedImage)}
-                  alt="Selected"
-                  className="h-40 w-[20rem] object-cover border border-gray-300 rounded-lg"
+            {/* Image preview or prompt to upload */}
+            {selectedImage ? (
+              <div className="mt-4 py-2">
+                <div className="pt-6 px-10 bg-[#F8F9FD] inline-block">
+                  <img
+                    src={selectedImage}
+                    alt="Selected"
+                    className="h-40 w-[20rem] object-cover border border-gray-300 rounded-lg"
+                  />
+                  <div className="flex my-4 gap-3 items-center text-[#44924C] text-center justify-center">
+                    <label
+                      htmlFor="imageUpload"
+                      className="cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <img src={imageFillIcon} alt="imageFillIcon" />
+                      Change Image →
+                    </label>
+                    <input
+                      id="imageUpload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-1 py-2 inline-block">
+                <label
+                  htmlFor="imageUpload"
+                  className="flex items-center cursor-pointer p-4 px-20 bg-[#e6e6e6d9] text-[#666666] rounded-md shadow hover:bg-gray-300"
+                >
+                  Upload
+                  <img
+                    src={uploadIcon}
+                    alt="uploadIcon"
+                    className="w-6 h-6 ml-2"
+                  />
+                </label>
+                <input
+                  id="imageUpload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
                 />
               </div>
             )}
@@ -204,7 +222,7 @@ const ChallengeDetails = () => {
             </label>
             <select
               {...register("level")}
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-indigo-400"
+              className="w-[12rem] inter px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-indigo-400"
             >
               <option value="">Select Level</option>
               <option value="easy">Easy</option>
@@ -221,7 +239,7 @@ const ChallengeDetails = () => {
             </label>
             <select
               {...register("status")}
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-indigo-400"
+              className="w-[12rem] inter px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-indigo-400"
             >
               <option value="">Select Status</option>
               <option value="Upcoming">Upcoming</option>
@@ -241,7 +259,7 @@ const ChallengeDetails = () => {
             </button>
             <button
               type="button"
-              onClick={handleBackButton}
+              onClick={() => navigate("/")}
               className="px-10 py-3 text-white bg-red-500 rounded-lg hover:bg-gray-600 focus:outline-none"
             >
               Back
@@ -249,6 +267,9 @@ const ChallengeDetails = () => {
           </div>
         </form>
       </div>
+      <ToastContainer 
+        theme="colored"
+      />
     </>
   );
 };

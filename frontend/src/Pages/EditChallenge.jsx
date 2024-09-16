@@ -5,6 +5,8 @@ import axios from "axios";
 import * as yup from "yup";
 import { useParams, useNavigate } from "react-router-dom";
 import imageFillIcon from "../assets/imageFill.svg";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Yup validation schema
 const schema = yup.object().shape({
@@ -83,8 +85,10 @@ const EditChallenge = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      alert("Edit Successful");
+      toast.success("Update Successful"); // Use toast.success instead of toast for better visibility
+    setTimeout(() => {
       navigate("/");
+    }, 2000);
     } catch (error) {
       console.error(
         "Error updating challenge:",
@@ -172,25 +176,44 @@ const EditChallenge = () => {
               <label className="block mb-5 text-[16px]font-medium text-gray-700">
                 Image
               </label>
-
-              {/* Image preview */}
-              {selectedImage && (
-                <div className="mt-4 py-2 ">
+              {/* Image preview or prompt to upload */}
+              {selectedImage ? (
+                <div className="mt-4 py-2">
                   <div className="pt-6 px-10 bg-[#F8F9FD] inline-block">
                     <img
                       src={selectedImage}
                       alt="Selected"
                       className="h-40 w-[20rem] object-cover border border-gray-300 rounded-lg"
                     />
-
                     <div className="flex my-4 gap-3 items-center text-[#44924C] text-center justify-center">
                       <label
                         htmlFor="imageUpload"
                         className="cursor-pointer flex items-center justify-center gap-2"
                       >
-                        {" "}
                         <img src={imageFillIcon} alt="imageFillIcon" />
-                        Change Image →{" "}
+                        Change Image →
+                      </label>
+                      <input
+                        id="imageUpload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="hidden"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4 py-2">
+                  <div className="pt-6 px-10 bg-[#F8F9FD] inline-block">
+                    <div className="h-40 w-[20rem] object-cover border border-gray-300 rounded-lg"></div>
+                    <div className="flex my-4 gap-3 items-center text-[#44924C] text-center justify-center">
+                      <label
+                        htmlFor="imageUpload"
+                        className="cursor-pointer flex items-center justify-center gap-2"
+                      >
+                        <img src={imageFillIcon} alt="imageFillIcon" />
+                        Change Image →
                       </label>
                       <input
                         id="imageUpload"
@@ -212,7 +235,7 @@ const EditChallenge = () => {
               </label>
               <select
                 {...register("level")}
-                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-indigo-400"
+                className="w-[12rem] inter px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-indigo-400"
               >
                 <option value="">Select Level</option>
                 <option value="easy">Easy</option>
@@ -229,7 +252,7 @@ const EditChallenge = () => {
               </label>
               <select
                 {...register("status")}
-                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-indigo-400"
+                className="w-[12rem] inter px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-indigo-400"
               >
                 <option value="">Select Status</option>
                 <option value="Upcoming">Upcoming</option>
@@ -259,6 +282,8 @@ const EditChallenge = () => {
           <p>Loading...</p>
         )}
       </div>
+      <ToastContainer
+      theme="colored" />
     </>
   );
 };
