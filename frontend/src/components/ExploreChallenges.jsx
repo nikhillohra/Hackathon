@@ -15,7 +15,7 @@ const ExploreChallenges = () => {
     const fetchHackathons = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5005/api/hackathons"
+          "https://hackathon-lqii.onrender.com/api/hackathons"
         );
         setHackathons(response.data);
       } catch (error) {

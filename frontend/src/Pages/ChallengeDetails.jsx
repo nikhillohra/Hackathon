@@ -54,7 +54,7 @@ const ChallengeDetails = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5005/api/hackathons",
+        "https://hackathon-lqii.onrender.com/api/hackathons",
         formData,
         {
           headers: {

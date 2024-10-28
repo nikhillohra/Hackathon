@@ -20,7 +20,7 @@ const HackathonDetail = () => {
     const fetchHackathon = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/api/hackathons/${id}`
+          `https://hackathon-lqii.onrender.com/api/hackathons/${id}`
         );
         setHackathon(response.data);
       } catch (error) {
@@ -36,7 +36,7 @@ const HackathonDetail = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5005/api/hackathons/${id}`);
+      await axios.delete(`https://hackathon-lqii.onrender.com/api/hackathons/${id}`);
       toast.error("Deleted Successful"); // Use toast.success instead of toast for better visibility
       setTimeout(() => {
         navigate("/");

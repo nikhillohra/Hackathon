@@ -40,7 +40,7 @@ const EditChallenge = () => {
     const fetchChallenge = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/api/hackathons/${id}`
+          `https://hackathon-lqii.onrender.com/api/hackathons/${id}`
         );
         const data = response.data;
         setInitialData(data);
@@ -56,7 +56,7 @@ const EditChallenge = () => {
         setValue("level", data.level);
         setValue("status", data.status);
         setSelectedImage(
-          data.image ? `http://localhost:5005/${data.image}` : null
+          data.image ? `https://hackathon-lqii.onrender.com/${data.image}` : null
         );
       } catch (error) {
         console.error("Error fetching challenge:", error);
@@ -80,7 +80,7 @@ const EditChallenge = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5005/api/hackathons/${id}`, formData, {
+      await axios.put(`https://hackathon-lqii.onrender.com/api/hackathons/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

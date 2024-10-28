@@ -21,7 +21,7 @@ const HackathonCard = ({ hackathon }) => {
     <div className="bg-white rounded-2xl flex flex-col justify-between items-center h-full">
       {hackathon.image ? (
         <img
-          src={`http://localhost:5005/${hackathon.image}`}
+          src={`https://hackathon-lqii.onrender.com/${hackathon.image}`}
           alt={hackathon.title}
           className="w-full h-48 object-cover rounded-t-2xl"
         />
