@@ -5,6 +5,10 @@ Welcome to the Hackathon Management App, a full-featured platform where you can 
 This app supports CRUD operations for adding, editing, deleting, and creating new hackathons. Additionally, 
 it includes features for filtering and searching through hackathon challenges, making it simple to find exactly what you're looking for. 
 All hackathon data is securely stored in MongoDB to ensure persistent storage.
+* Backend LINK: https://hackathon-lqii.onrender.com
+* FullStack LINK: https://hackathon-xi-three.vercel.app
+
+
 
 
 ## 🛠 Technologies Used
