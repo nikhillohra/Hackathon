@@ -34,6 +34,11 @@ mongoose
 const hackathonRoutes = require("./routes/hackathonRoutes");
 app.use("/api/hackathons", hackathonRoutes);
 
+// check route for the backend server
+app.get("/", (req, res) => {
+  res.status(200).send("API is running");
+});
+
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error("Error stack:", err.stack);
@@ -44,17 +49,4 @@ app.use((err, req, res, next) => {
         ? err.message
         : "Internal Server Error",
   });
-});
-
-// Serve frontend in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "Hackathon", "frontend", "dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "Hackathon", "frontend", "dist", "index.html"));
-  });
-}
-
-// Backend check
-app.get("/", (req, res) => {
-  res.status(200).send("API is running");
 });
